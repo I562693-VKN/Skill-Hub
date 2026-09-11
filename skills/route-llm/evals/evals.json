@@ -1,0 +1,101 @@
+{
+  "skill_name": "route-llm",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/route-llm I'm building a coding agent that reads files, writes new functions, fixes bugs from test output, explains methods, and searches documentation",
+      "expected_output": "Produces a routing table with at least 3 task rows. Tier 1 for documentation search/explanation, Tier 2 for code writing and bug fixing, potentially Tier 3 for complex architecture tasks. Flags session pinning as required because tasks run in a multi-turn agent loop. Calculates a blended cost that is meaningfully lower than single-model opus pricing. Explains that switching models mid-loop would destroy prefix cache hits.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "multi-tier-table",
+          "text": "The routing table contains tasks assigned to at least 2 different tiers"
+        },
+        {
+          "name": "session-pinning-required",
+          "text": "Session pinning is flagged as required with explanation that model switching destroys prefix cache"
+        },
+        {
+          "name": "cost-estimate",
+          "text": "A blended cost estimate is provided showing reduction vs single frontier model"
+        },
+        {
+          "name": "output-format",
+          "text": "Response contains all required sections: Task Classification, Routing Table, Session Pinning, Cost Estimate, Implementation Notes"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/route-llm A customer support bot that classifies intent (billing, shipping, returns), extracts order numbers from messages, and responds with templated answers",
+      "expected_output": "All tasks classified as Tier 1 (haiku): intent classification, entity extraction, and template-fill are all cheap-model tasks. Session pinning is not required because this is a single-turn or stateless interaction pattern. Cost estimate shows very high reduction (80-90%) vs frontier model. No complex reasoning required.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "tier-1-dominant",
+          "text": "Most or all tasks are classified as Tier 1 (haiku-appropriate)"
+        },
+        {
+          "name": "no-session-pinning",
+          "text": "Session pinning is flagged as not required"
+        },
+        {
+          "name": "high-cost-reduction",
+          "text": "Cost estimate shows significant reduction (50%+) vs routing everything to frontier model"
+        },
+        {
+          "name": "output-format",
+          "text": "Response contains all required sections: Task Classification, Routing Table, Session Pinning, Cost Estimate, Implementation Notes"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "/route-llm A document processing pipeline: OCR error correction on scanned text, extract named entities and dates, summarize each document, then produce a final investment recommendation weighing regulatory risk, market position, and financial metrics",
+      "expected_output": "Mixed tiers: OCR correction (Tier 1-2), entity extraction (Tier 1), summarization (Tier 1-2), final investment recommendation with multi-constraint reasoning (Tier 3). Session pinning not required because this is a batch pipeline, not an agent loop. Blended rate is mid-range. Tier 3 is reserved only for the final recommendation step.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "tier-3-final-step",
+          "text": "The final recommendation/reasoning step is classified as Tier 3"
+        },
+        {
+          "name": "extraction-tier-1",
+          "text": "Entity extraction or summarization tasks are classified as Tier 1 or Tier 2"
+        },
+        {
+          "name": "no-session-pinning-batch",
+          "text": "Session pinning is flagged as not required because this is a batch pipeline, not an iterative agent loop"
+        },
+        {
+          "name": "output-format",
+          "text": "Response contains all required sections: Task Classification, Routing Table, Session Pinning, Cost Estimate, Implementation Notes"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "/route-llm on",
+      "expected_output": "Runs activate.sh to register the hook in .claude/settings.json and create the flag file ~/.claude/.route-llm-active. Confirms routing mode is active. Explains that each response will start with [ROUTING: Tier N — task — model]. Provides deactivation instructions. Mentions Claude Code restart may be needed for hook to take effect.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "activate-script-run",
+          "text": "The activate.sh script is executed (or the equivalent activation steps are performed)"
+        },
+        {
+          "name": "flag-file-created",
+          "text": "The ~/.claude/.route-llm-active flag file is created"
+        },
+        {
+          "name": "routing-header-explained",
+          "text": "User is told that each response will start with [ROUTING: Tier N — task — model]"
+        },
+        {
+          "name": "deactivation-instructions",
+          "text": "Deactivation command is provided (stop routing or /route-llm off)"
+        }
+      ]
+    }
+  ]
+}
