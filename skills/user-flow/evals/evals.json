@@ -1,0 +1,97 @@
+{
+  "skill_name": "user-flow",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/user-flow E-commerce checkout: user browses products, adds to cart, logs in or continues as guest, enters shipping address, selects payment method, places order, receives confirmation",
+      "expected_output": "Generates a flowchart with at least 5 nodes including a login/guest decision diamond and a payment success/failure decision. Generates a journey diagram with at least 3 sections. Provides Key Insights and Potential Improvements sections. Uses 'flowchart TD' syntax (not 'graph TD'). Proposes diagram types before generating (or generates all if --type all given).",
+      "files": [],
+      "assertions": [
+        {
+          "name": "flowchart-present",
+          "text": "A mermaid flowchart code block is present in the response"
+        },
+        {
+          "name": "flowchart-syntax-valid",
+          "text": "The flowchart uses 'flowchart TD' or 'flowchart LR', not the deprecated 'graph TD'"
+        },
+        {
+          "name": "journey-present",
+          "text": "A mermaid journey code block is present in the response"
+        },
+        {
+          "name": "decision-nodes",
+          "text": "The flowchart contains at least 2 decision diamonds (e.g. login/guest choice, payment success/failure)"
+        },
+        {
+          "name": "error-path",
+          "text": "The flowchart shows at least one error or failure path (payment failure, invalid address, etc.)"
+        },
+        {
+          "name": "insights-section",
+          "text": "A 'Key Insights' section is present with at least 2 bullet points"
+        },
+        {
+          "name": "improvements-section",
+          "text": "A 'Potential Improvements' section is present with at least 1 concrete suggestion"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/user-flow --type flowchart,state SAP Fiori Elements List Report app: user opens app, sets filters for company code and date range, clicks Go, selects a row in the results table, navigates to the Object Page, switches to edit mode, modifies a field, saves the record",
+      "expected_output": "Generates a flowchart showing the full List Report to Object Page navigation flow. Generates a state diagram showing display/edit/saving/saved states. Flowchart includes filter bar, table results, row selection, Object Page display, edit mode, and save steps. State diagram uses 'stateDiagram-v2'. No proposal pause because --type flag was provided.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "flowchart-fiori",
+          "text": "Flowchart includes both 'List Report' and 'Object Page' as distinct nodes or labels"
+        },
+        {
+          "name": "state-diagram-v2",
+          "text": "A 'stateDiagram-v2' code block is present (not 'stateDiagram')"
+        },
+        {
+          "name": "edit-states",
+          "text": "The state diagram includes at least 3 states representing the edit flow (e.g. Display, Edit, Saving or similar)"
+        },
+        {
+          "name": "filter-step",
+          "text": "The flowchart includes a filter or search step before results are shown"
+        },
+        {
+          "name": "no-mcp-calls",
+          "text": "The response contains only Mermaid code blocks — no references to SVG files, Live Editor URLs, or MCP tool calls"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "/user-flow --type sequence Authentication flow: user submits email and password on the login form, the frontend sends credentials to the API, the API validates against the database, returns a JWT on success or 401 on failure, the client stores the token in localStorage and redirects to the dashboard",
+      "expected_output": "Generates a sequence diagram with at least 3 actors (User/Frontend, API, Database). Includes an alt/else block for the 401 failure path. Shows the JWT storage step. Uses correct sequenceDiagram syntax with participant declarations. No proposal pause because --type flag was provided.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "sequence-diagram-present",
+          "text": "A mermaid sequenceDiagram code block is present"
+        },
+        {
+          "name": "three-actors",
+          "text": "The sequence diagram declares at least 3 participants/actors (e.g. User or Frontend, API, Database)"
+        },
+        {
+          "name": "error-alt-block",
+          "text": "The sequence diagram contains an 'alt' or 'else' block covering the 401 or authentication failure case"
+        },
+        {
+          "name": "jwt-or-token",
+          "text": "The sequence diagram shows JWT issuance or token storage as a step"
+        },
+        {
+          "name": "insights-present",
+          "text": "Key Insights section is present with at least one insight about the auth flow"
+        }
+      ]
+    }
+  ]
+}
